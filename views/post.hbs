@@ -1,0 +1,83 @@
+<!-- views/post.hbs -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>{{post.title}}</title>
+</head>
+
+<body>
+    {{> partials/nav}}
+
+    {{#if error}}
+    <div class="alert alert-danger" role="alert">
+        <p style="color: red;">{{error}}</p>
+    </div>
+    {{/if}}
+
+    <div class="container-fluid w-75 m-3">
+      <div class="card">
+        <div class="card-header">
+           Created by: {{post.User.username}}
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{post.title}}</h2>
+          <p class="card-text">{{post.content}}</p>
+          {{#if isCurrentUserPost}}
+            <a href="/posts/{{post.id}}/edit"><i class="bi bi-pencil-square " style="font-size:25px"></i></a>
+            <a href="/posts/{{post.id}}/delete" onclick="return confirm('Are you sure you want to delete this post?')"><i class="bi bi-trash m-3" style="color: red; font-size:25px"></i></a>
+          {{/if}}       
+        </div>
+        <div class="card-footer text-body-secondary">
+          Date: {{post.createdAt}}
+        </div>
+     </div>
+
+
+    
+    </div>
+    <div class="container-fluid w-75 m-3">
+
+    <h4>Comments</h4>
+    {{#each post.Comments}}
+
+<div class="card-body container-fluid m-3 p-3">
+    <blockquote class="blockquote mb-0">
+      <p>{{this.content}}</p>
+      <footer class="blockquote-footer">Posted by: {{commenterUsername}} at {{createdAtFormatted}}</footer>
+    </blockquote>
+  </div>
+
+
+
+        <div>
+        {{#if this.isCurrentUserComment}}
+            <a href="/posts/{{../post.id}}/comments/{{this.id}}/delete"><i class="bi bi-trash p-2" style="color: red;"></i></a>
+        {{/if}}
+        </div>
+    <hr>
+    {{/each}}
+
+
+
+    <form action="/posts/{{post.id}}/comments" method="post">
+    <div class="input-group mb-3">
+  <span class="input-group-text" id="basic-addon1">@</span>
+  <input type="text" class="form-control" placeholder="Comment" aria-label="Comment" aria-describedby="basic-addon1" id="comment" name="comment" required>
+</div>
+
+        <button class="btn btn-outline-primary" type="submit">Add Comment</button>
+    </form>
+    
+    <div class="container-fluid w-75 m-3">
+
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!-- views/home.hbs -->
+
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <title>Home</title>
+  </head>
+  <body>
+    {{> partials/nav}}
+
+    {{#if error}}
+    <div class="alert alert-danger" role="alert">
+
+      <p style="color: red;">{{error}}</p>
+</div>
+    {{/if}}
+
+    {{#each posts}}
+    <div class="container-fluid w-75 m-3">
+      <div class="card">
+        <div class="card-header">
+           Created by: {{this.User.username}}
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{this.title}}</h2>
+          <p class="card-text">{{this.content}}</p>
+          <a href="/posts/{{this.id}}" class="btn btn-primary">Read More</a>
+        </div>
+        <div class="card-footer text-body-secondary">
+          Date: {{this.createdAt}}
+        </div>
+      </div>
+      </div>
+    {{/each}}
+  </body>
+</html>
